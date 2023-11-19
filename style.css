@@ -5,6 +5,7 @@
     box-sizing: border-box;
     transition: all 1s ease-in-out;
     font-family: 'Poppins', sans-serif;
+    color: var(--tg-theme-text-color);
 }
 
 body {
@@ -12,6 +13,7 @@ body {
     max-width: 360px;
     margin: 2rem auto;
     padding: 0.5rem;
+    background-color: var(--tg-theme-bg-color);
 }
 
 #title {
