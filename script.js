@@ -10,6 +10,11 @@ const timestamp = current_time.getTime() / 1000;
 var url = new URL(window.location.href);
 var token = url.searchParams.get("token");
 
+if (!token) {
+    title.innerHTML = "Invalid token";
+    throw new Error("invalid token");
+}
+
 const append_events = (events) => {
     const current_time = new Date();
     var id = 0;
