@@ -138,10 +138,10 @@ const format_dtime = (dtime) => {
     if (days > 0) {
         text += `${days} day${days > 1 ? "s" : ""} `;
     }
-    if (hours > 0) {
+    if (hours > 0 && days < 2) {
         text += `${hours} hr${hours > 1 ? "s" : ""} `;
     }
-    if (minutes > 0) {
+    if (minutes > 0 && days < 2) {
         text += `${minutes} min${minutes > 1 ? "s" : ""} `;
     }
     if (seconds > 0 && hours == 0 && days == 0) {
@@ -165,7 +165,7 @@ const get_next_date = (year, month) => {
 }
 
 get_all_events().then(events => {
-    if (!error.innerHTML.length) {
+    if (error.innerHTML.length) {
         title.innerHTML = 'Something went wrong 😶'
         return;
     }
