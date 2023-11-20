@@ -27,7 +27,7 @@ body {
 
 #items {
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 0.7rem;
 }
 
 .item {
@@ -35,7 +35,7 @@ body {
 }
 
 .item:not(:last-child) {
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--tg-theme-hint-color);
 }
 
 input[type="checkbox"] {

@@ -1,6 +1,7 @@
 
-const items = document.querySelector("#items");
 const title = document.querySelector("#title");
+const error = document.querySelector("#error-logs");
+const items = document.querySelector("#items");
 
 const moodle_url = "https://moodle.astanait.edu.kz/webservice/rest/server.php?";
 const allowed_types = ['due', 'close']
@@ -11,7 +12,8 @@ const tg = window.Telegram.WebApp;
 var token = tg.initDataUnsafe.start_param;
 
 if (!token) {
-    title.innerHTML = `Invalid token <br> <span class="muted">token: ${token}</span>`;
+    title.innerHTML = 'Invalid token';
+    error.innerHTML += `Invalid token: ${token} <br>`;
     throw new Error(`invalid token: ${token}`);
 }
 
@@ -78,6 +80,10 @@ const get_all_events = async () => {
     var data = await Promise.all(promises);
     var events = [].concat(...data);
     
+    if (error.innerHTML.length) {
+        return [];
+    }
+
     events.sort(function(a, b) {
         var keyA = a.timestart,
             keyB = b.timestart;
@@ -103,6 +109,11 @@ const get_events = async (year, month) => {
         .then(async (res) => { return await res.json(); })
         .then((data) => { return data; });
 
+    if (data.errorcode) {
+        error.innerHTML += data.errorcode + '<br>';
+        return [];
+    }
+    
     var events = [];
     for (const week of data.weeks) {
         for (const day of week.days) {
@@ -154,6 +165,10 @@ const get_next_date = (year, month) => {
 }
 
 get_all_events().then(events => {
+    if (!error.innerHTML.length) {
+        title.innerHTML = 'Something went wrong 😶'
+        return;
+    }
     append_events(events);
     setInterval(() => {
         update_coutdown();
