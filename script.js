@@ -11,7 +11,7 @@ const tg = window.Telegram.WebApp;
 var token = tg.initDataUnsafe.start_param;
 
 if (!token) {
-    title.innerHTML = `Invalid token <br> <span class="muted">token: s${token}</span>`;
+    title.innerHTML = `Invalid token <br> <span class="muted">token: ${token}</span>`;
     throw new Error(`invalid token: ${token}`);
 }
 

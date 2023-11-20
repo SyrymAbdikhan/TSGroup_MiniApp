@@ -20,6 +20,11 @@ body {
     text-align: center;
 }
 
+#title .muted {
+    color: var(--tg-theme-hint-color);
+    font-size: medium;
+}
+
 #items {
     margin: 0 auto;
     padding: 0 2rem;
