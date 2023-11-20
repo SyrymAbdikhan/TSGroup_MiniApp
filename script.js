@@ -6,16 +6,13 @@ const moodle_url = "https://moodle.astanait.edu.kz/webservice/rest/server.php?";
 const allowed_types = ['due', 'close']
 const current_time = new Date();
 const timestamp = current_time.getTime() / 1000;
-const tg = window.Telegram.WebApp;
-items.innerHTML += tg.initDataUnsafe;
-items.innerHTML += tg.initDataUnsafe.start_param;
 
-var url = new URL(window.location.href);
-var token = url.searchParams.get("token");
+const tg = window.Telegram.WebApp;
+var token = tg.initDataUnsafe.start_param;
 
 if (!token) {
-    title.innerHTML = "Invalid token";
-    throw new Error("invalid token");
+    title.innerHTML = `Invalid token <br> <span class="muted">token: s${token}</span>`;
+    throw new Error(`invalid token: ${token}`);
 }
 
 const append_events = (events) => {
