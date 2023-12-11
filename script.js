@@ -9,11 +9,17 @@ const current_time = new Date();
 const timestamp = current_time.getTime() / 1000;
 
 const tg = window.Telegram.WebApp;
-const moodle_data = JSON.parse(atob(tg.initDataUnsafe.start_param));
+let data;
+try {
+    data = JSON.parse(atob(tg.initDataUnsafe.start_param));
+} catch (e) {
+    data = {token: '', min_startdate: 0};
+}
+const moodle_data = data;
 
 if (!moodle_data.token) {
     title.innerHTML = 'Invalid token';
-    error.innerHTML += `Invalid token: ${moodle_data.token} <br>`;
+    error.innerHTML += `Invalid token: '${moodle_data.token}' <br>`;
     throw new Error(`invalid token: ${moodle_data.token}`);
 }
 
