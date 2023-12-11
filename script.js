@@ -9,12 +9,12 @@ const current_time = new Date();
 const timestamp = current_time.getTime() / 1000;
 
 const tg = window.Telegram.WebApp;
-var token = tg.initDataUnsafe.start_param;
+const moodle_data = JSON.parse(atob(tg.initDataUnsafe.start_param));
 
-if (!token) {
+if (!moodle_data.token) {
     title.innerHTML = 'Invalid token';
-    error.innerHTML += `Invalid token: ${token} <br>`;
-    throw new Error(`invalid token: ${token}`);
+    error.innerHTML += `Invalid token: ${moodle_data.token} <br>`;
+    throw new Error(`invalid token: ${moodle_data.token}`);
 }
 
 const append_events = (events) => {
@@ -97,7 +97,7 @@ const get_all_events = async () => {
 
 const get_events = async (year, month) => {
     var params = {
-        "wstoken": token,
+        "wstoken": moodle_data.token,
         "moodlewsrestformat": "json",
         "wsfunction": "core_calendar_get_calendar_monthly_view",
         "year": year,
@@ -118,7 +118,7 @@ const get_events = async (year, month) => {
     for (const week of data.weeks) {
         for (const day of week.days) {
             for (const event of day.events) {
-                if (allowed_types.includes(event.eventtype) && event.timestart > timestamp) {
+                if (allowed_types.includes(event.eventtype) && event.timestart > timestamp && event.course.startdate >= moodle_data.min_startdate) {
                     events.push(event);
                 }
             }
