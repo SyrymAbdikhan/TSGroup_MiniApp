@@ -42,7 +42,7 @@ const append_events = (events) => {
         const node = `
             <div class="item">
                 <input class="toggle" type="checkbox" id="ddl-${id}">
-                <label for="ddl-${id}">📝 ${vname}</label>
+                <label for="ddl-${id}">📝 ${vname}</label><a target="blank" href="${event.url}">🔗</a>
                 <div class="collapse">
                     📚 ${cname} <br>
                     ⏰ ${fDate}

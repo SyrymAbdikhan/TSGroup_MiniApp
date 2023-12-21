@@ -34,6 +34,11 @@ body {
     padding: 0.7rem 0;
 }
 
+.item a {
+    margin-left: 10px;
+    text-decoration: none;
+}
+
 .item:not(:last-child) {
     border-bottom: 1px solid var(--tg-theme-hint-color);
 }
