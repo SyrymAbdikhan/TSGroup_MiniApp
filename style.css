@@ -76,3 +76,8 @@ input[type="checkbox"] {
 .toggle + label {
     cursor: pointer;
 }
+
+p {
+    text-align: center;
+    color: var(--tg-theme-hint-color);
+}

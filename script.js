@@ -1,6 +1,6 @@
 
-const title = document.querySelector("#title");
-const error = document.querySelector("#error-logs");
+const title_div = document.querySelector("#title");
+const error_div = document.querySelector("#error-logs");
 const items = document.querySelector("#items");
 
 const moodle_url = "https://moodle.astanait.edu.kz/webservice/rest/server.php?";
@@ -18,8 +18,8 @@ try {
 const moodle_data = data;
 
 if (!moodle_data.token) {
-    title.innerHTML = 'Invalid token';
-    error.innerHTML += `Invalid token: '${moodle_data.token}' <br>`;
+    title_div.innerHTML = 'Invalid token';
+    error_div.innerHTML += `Invalid token: '${moodle_data.token}' <br>`;
     throw new Error(`invalid token: ${moodle_data.token}`);
 }
 
@@ -57,9 +57,9 @@ const append_events = (events) => {
     }
 
     if (events.length) {
-        title.textContent = "All Deadlines 🫡";
+        title_div.textContent = "All Deadlines 🫡";
     } else {
-        title.textContent = "No Deadlines 🥳";
+        title_div.textContent = "No Deadlines 🥳";
     }
 }
 
@@ -85,8 +85,8 @@ const get_all_events = async () => {
 
     var data = await Promise.all(promises);
     var events = [].concat(...data);
-    
-    if (error.innerHTML.length) {
+
+    if (error_div.innerHTML.length) {
         return [];
     }
 
@@ -113,10 +113,18 @@ const get_events = async (year, month) => {
     new_url = moodle_url + new URLSearchParams(params).toString();
     var data = await fetch(new_url)
         .then(async (res) => { return await res.json(); })
-        .then((data) => { return data; });
+        .then((data) => { return data; })
+        .catch((error) => {
+            title_div.innerHTML = 'Something went wrong 😶';
+            error_div.innerHTML = `Could not connect to server.<br>Error: "${error}"`;
+        });
+    
+    if (error_div.innerHTML.length) {
+        return [];
+    }
 
     if (data.errorcode) {
-        error.innerHTML += data.errorcode + '<br>';
+        error_div.innerHTML += data.errorcode + '<br>';
         return [];
     }
     
@@ -140,7 +148,7 @@ const format_dtime = (dtime) => {
     var hours = Math.floor((dtime % (60 * 60 * 24)) / (60 * 60));
     var minutes = Math.floor((dtime % (60 * 60)) / 60);
     var seconds = Math.floor(dtime % 60);
-    
+
     if (days > 0) {
         text += `${days} day${days > 1 ? "s" : ""} `;
     }
@@ -171,8 +179,8 @@ const get_next_date = (year, month) => {
 }
 
 get_all_events().then(events => {
-    if (error.innerHTML.length) {
-        title.innerHTML = 'Something went wrong 😶'
+    if (error_div.innerHTML.length) {
+        title_div.innerHTML = 'Something went wrong 😶'
         return;
     }
     append_events(events);
